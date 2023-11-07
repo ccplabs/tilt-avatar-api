@@ -34,7 +34,6 @@ part_mapping = {
 docker_blue = '#086DD7'
 tilt_green = '#20BA31'
 
-@app.before_first_request
 def initialize():
     try:
         pa.ClothingType.DOCKER_SHIRT
@@ -44,7 +43,7 @@ def initialize():
         pa.ClothingType.TILT_SHIRT
     except AttributeError:
         pa.install_part(str(pathlib.Path(__file__).parent.joinpath('tilt_shirt.svg')), pa.ClothingType)
-
+app.before_first_request = [(None, initialize())]
 
 @app.route('/api/avatar')
 def avatar():
